@@ -30,7 +30,7 @@
 #  define BOOST_THREAD_HPUX
 #elif defined(__CYGWIN__)
 #  define BOOST_THREAD_CYGWIN
-#elif (defined(_WIN32) || defined(__WIN32__) || defined(WIN32)) && !defined(BOOST_DISABLE_WIN32)
+#elif (defined(_WIN32) || defined(__WIN32__) || defined(WIN32) || defined(__MINGW32__)) && !defined(BOOST_DISABLE_WIN32)
 #if ! defined BOOST_THREAD_WIN32
 #  define BOOST_THREAD_WIN32
 #endif

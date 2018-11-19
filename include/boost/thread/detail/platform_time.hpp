@@ -442,11 +442,19 @@ inline FP init_steady_clock(kern_return_t & err)
       return mono_platform_timepoint(fp());
 #else
       timespec ts;
-      if ( ::clock_gettime( CLOCK_MONOTONIC, &ts ) )
+#ifdef BOOST_THREAD_CYGWIN
+      do
       {
-        BOOST_ASSERT(0 && "Boost::Thread - clock_gettime(CLOCK_MONOTONIC) Internal Error");
-        return mono_platform_timepoint(0);
-      }
+        // work around a cygwin issue (see chrono issue-35)
+#endif
+        if ( ::clock_gettime( CLOCK_MONOTONIC, &ts ) )
+        {
+          BOOST_ASSERT(0 && "Boost::Thread - clock_gettime(CLOCK_MONOTONIC) Internal Error");
+          return mono_platform_timepoint(0);
+        }
+#ifdef BOOST_THREAD_CYGWIN
+      } while (ts.tv_sec == 0 && ts.tv_nsec == 0);
+#endif
       return mono_platform_timepoint(ts);
 #endif
     }

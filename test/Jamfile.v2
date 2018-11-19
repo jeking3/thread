@@ -106,6 +106,7 @@ project
         <toolset>intel:<cxxflags>-wd2415
 
         <toolset>msvc:<cxxflags>/wd4100
+        <toolset>msvc:<cxxflags>/wd4459
         <toolset>msvc:<cxxflags>/wd4512
         <toolset>msvc:<cxxflags>/wd6246
     ;

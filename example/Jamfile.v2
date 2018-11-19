@@ -5,7 +5,10 @@
 #  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 project boost/thread/example 
-    : requirements <library>../build//boost_thread <threading>multi
+    : requirements
+      <library>../build//boost_thread
+      <threading>multi
+      <toolset>msvc:<cxxflags>/wd4459
     ;
        
 

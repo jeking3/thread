@@ -4,6 +4,7 @@
 //  Distributed under the Boost Software License, Version 1.0. (See accompanying 
 //  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
+#include <boost/core/noncopyable.hpp>
 #include <boost/thread/condition.hpp>
 #include <boost/thread/mutex.hpp>
 #include <boost/thread/thread.hpp>
@@ -14,7 +15,7 @@ class bounded_buffer : private boost::noncopyable
 {
 public:
     typedef boost::mutex::scoped_lock lock;
-    bounded_buffer(int n) : begin(0), end(0), buffered(0), circular_buf(n) { }
+    bounded_buffer(int n) : circular_buf(n), begin(0), end(0), buffered(0) { }
     void send (int m) {
         lock lk(monitor);
         while (buffered == circular_buf.size())
@@ -35,8 +36,8 @@ public:
         return i;
     }
 private:
-    int begin, end, buffered;
     std::vector<int> circular_buf;
+    std::vector<int>::size_type begin, end, buffered;
     boost::condition buffer_not_full, buffer_not_empty;
     boost::mutex monitor;
 };

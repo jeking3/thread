@@ -1,0 +1,28 @@
+#  Boost.Thread Library example Jamfile
+#
+#  Copyright (C) 2018 James E. King III
+#
+#  Distributed under the Boost Software License, Version 1.0. (See accompany-
+#  ing file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+
+import testing ;
+
+project boost/thread/tutorial
+    : requirements
+      <library>../build//boost_thread
+      <threading>multi
+      <toolset>msvc:<cxxflags>/wd4459
+    ;
+
+test-suite "thread-examples"
+   :    [ run bounded_buffer.cpp ]
+        [ run counter.cpp ]
+        [ run factorial.cpp ]
+        [ run factorial2.cpp ]
+        [ run factorial3.cpp ]
+        [ run helloworld.cpp ]
+        [ run helloworld2.cpp ]
+        [ run helloworld3.cpp ]
+        [ run once.cpp ]
+        [ run tss.cpp ]
+   ;

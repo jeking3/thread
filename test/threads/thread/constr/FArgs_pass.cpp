@@ -106,7 +106,7 @@ int main()
     BOOST_TEST(f_run == true);
     std::cout << __FILE__ << ":" << __LINE__ <<" " << G::n_alive << std::endl;
   }
-#ifndef BOOST_MSVC
+#if !defined(BOOST_MSVC) && !defined(USING_VALGRIND) && !defined(__MINGW32__)
   f_run = false;
   {
     std::cout << __FILE__ << ":" << __LINE__ <<" " << G::n_alive << std::endl;
@@ -114,7 +114,7 @@ int main()
     {
       std::cout << __FILE__ << ":" << __LINE__ <<" " << G::n_alive << std::endl;
       throw_one = 0;
-      boost::thread t(f, 5, 5.5);
+      boost::thread t(f, 5, 5.5); // under valgrind without additional options, this does not throw
       BOOST_TEST(false);
       std::cout << __FILE__ << ":" << __LINE__ <<" " << G::n_alive << std::endl;
     }

@@ -10,10 +10,18 @@
 #include <boost/detail/lightweight_test.hpp>
 
 #if ! defined BOOST_THREAD_TEST_TIME_MS
-#ifdef BOOST_THREAD_PLATFORM_WIN32
+#if defined(BOOST_THREAD_PLATFORM_WIN32) || defined(BOOST_THREAD_CYGWIN)
 #define BOOST_THREAD_TEST_TIME_MS 250
 #else
-#define BOOST_THREAD_TEST_TIME_MS 75
+#define BOOST_THREAD_TEST_TIME_MS 100
+#endif
+#endif
+
+#if ! defined BOOST_THREAD_TEST_TIME_SHORT_MS
+#if defined(BOOST_THREAD_PLATFORM_WIN32) || defined(BOOST_THREAD_CYGWIN)
+#define BOOST_THREAD_TEST_TIME_SHORT_MS 25
+#else
+#define BOOST_THREAD_TEST_TIME_SHORT_MS 5 
 #endif
 #endif
 

@@ -434,8 +434,13 @@
 #else
   #include <time.h> // check for CLOCK_MONOTONIC
   #if defined(CLOCK_MONOTONIC)
-    #define BOOST_THREAD_HAS_MONO_CLOCK
-    #define BOOST_THREAD_INTERNAL_CLOCK_IS_MONO
+    // cygwin uses relative time management for monotonic clock expiration
+    // and the logic has problems, so we use the realtime clock on cygwin.
+    // See: https://github.com/boostorg/thread/issues/258
+    #if !defined(BOOST_THREAD_CYGWIN) || defined(BOOST_THREAD_CYGWIN_FORCE_INTERNAL_MONO_CLOCK)
+      #define BOOST_THREAD_HAS_MONO_CLOCK
+      #define BOOST_THREAD_INTERNAL_CLOCK_IS_MONO
+    #endif
   #endif
 #endif
 

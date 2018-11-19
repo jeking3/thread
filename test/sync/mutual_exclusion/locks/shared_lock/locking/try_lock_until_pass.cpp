@@ -21,7 +21,9 @@
 
 #include <boost/thread/lock_types.hpp>
 #include <boost/thread/shared_mutex.hpp>
+#include <boost/chrono/chrono_io.hpp>
 #include <boost/detail/lightweight_test.hpp>
+#include "../../../../../timming.hpp"
 
 bool try_lock_until_called = false;
 
@@ -31,7 +33,7 @@ struct shared_mutex
   bool try_lock_shared_until(const boost::chrono::time_point<Clock, Duration>& abs_time)
   {
     typedef boost::chrono::milliseconds ms;
-    BOOST_TEST(Clock::now() - abs_time < ms(5));
+    BOOST_TEST_LT(Clock::now() - abs_time, ms(BOOST_THREAD_TEST_TIME_SHORT_MS));
     try_lock_until_called = !try_lock_until_called;
     return try_lock_until_called;
   }
